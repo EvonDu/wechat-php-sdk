@@ -1,0 +1,21 @@
+{
+    "name": "evondu/wechat-php-sdk",
+    "authors": [
+        {
+            "name": "EvonDu",
+            "email": "298550274@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload":{
+        "psr-4":{
+            "evondu\\wechat\\":"src/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.laravel-china.org"
+        }
+    }
+}
