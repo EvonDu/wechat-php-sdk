@@ -2,17 +2,22 @@
 namespace evondu\wechat;
 
 use evondu\wechat\core\Config;
+use evondu\wechat\module\Auth;
 use evondu\wechat\module\Payment;
 
 /**
  * @property \evondu\wechat\core\Config $config
+ * @property \evondu\wechat\module\Auth $auth
  * @property \evondu\wechat\module\Payment $payment
  */
 class WeChatClient{
     /**
-     * 属性
+     * @var Config $config
+     * @var Auth $auth
+     * @var Payment $payment
      */
     public $config;
+    public $auth;
     public $payment;
 
     /**
@@ -25,6 +30,7 @@ class WeChatClient{
         $this->config = new Config($params);
 
         //加载模块
+        $this->auth = new Auth($this);
         $this->payment = new Payment($this);
     }
 }
