@@ -3,7 +3,7 @@ require '../vendor/autoload.php';
 
 //引入
 use evondu\wechat\WeChatClient;
-use evondu\wechat\lib\UrlHelp;
+use evondu\wechat\lib\Url;
 
 //创建客户端
 $config = include "config/qiyi.php";
@@ -14,7 +14,7 @@ $result = $client->payment->payNative([
     "body"          => "test",
     "out_trade_no"  => time(),
     "total_fee"     => 1,
-],UrlHelp::to("notify.php"));
+],Url::to("notify.php"));
 
 //DEBUG
 var_dump($result);

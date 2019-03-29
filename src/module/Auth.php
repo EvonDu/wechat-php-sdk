@@ -3,6 +3,7 @@ namespace evondu\wechat\module;
 
 use evondu\wechat\core\BaseModule;
 use evondu\wechat\lib\Http;
+use evondu\wechat\lib\Url;
 
 class Auth extends BaseModule {
     /**
@@ -27,7 +28,7 @@ class Auth extends BaseModule {
      */
     public function oauth($scope = self::SNSAPI_BASE, $state = ""){
         if(!isset($_GET["code"]))
-            return $this->toAuth($this->getCurrentUrl(), $scope, $state);
+            return $this->toAuth(Url::current(), $scope, $state);
         else{
             $response = $this->requestAccessToken($_GET["code"]);
             $this->openid = $response->openid;
@@ -94,16 +95,6 @@ class Auth extends BaseModule {
 
         //返回
         return $result;
-    }
-
-    /**
-     * 获取当前URL
-     * @return string
-     */
-    public function getCurrentUrl(){
-        return $_SERVER["SERVER_PORT"] == "80" ?
-            $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] :
-            $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].':'.$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
     }
 
     /**
