@@ -3,11 +3,13 @@ namespace evondu\wechat;
 
 use evondu\wechat\core\Config;
 use evondu\wechat\module\Auth;
+use evondu\wechat\module\Jssdk;
 use evondu\wechat\module\Payment;
 
 /**
  * @property \evondu\wechat\core\Config $config
  * @property \evondu\wechat\module\Auth $auth
+ * @property \evondu\wechat\module\Jssdk $jssdk
  * @property \evondu\wechat\module\Payment $payment
  */
 class WeChatClient{
@@ -18,6 +20,7 @@ class WeChatClient{
      */
     public $config;
     public $auth;
+    public $jssdk;
     public $payment;
 
     /**
@@ -31,6 +34,7 @@ class WeChatClient{
 
         //加载模块
         $this->auth = new Auth($this);
+        $this->jssdk = new Jssdk($this);
         $this->payment = new Payment($this);
     }
 }
