@@ -90,8 +90,9 @@ class Payment extends BaseModule {
     /**
      * JSAPI支付
      * @param array $params
-     * @param string $notify_url
-     * @return mixed
+     * @param $notify_url
+     * @return array
+     * @throws \Exception
      */
     public function payJsapi(Array $params=[], $notify_url){
         //参数判断
@@ -101,7 +102,22 @@ class Payment extends BaseModule {
 
         //调用统一下单
         $params["trade_type"] = "JSAPI";
-        return $this->unifiedOrder($params, $notify_url);
+        $response = $this->unifiedOrder($params, $notify_url);
+        if(empty($response["prepay_id"]) || empty($response["return_code"]) || $response["return_code"] != "SUCCESS")
+            throw new \Exception("统一下单失败");
+
+        //设置
+        $params = [
+            "appId"     => $this->app->config->getAppId(),
+            "package"   => "prepay_id=" . $response['prepay_id'],
+            "timeStamp" => time(),
+            "nonceStr"  => uniqid(),
+            "signType"  => $this->app->config->getSignType(),
+        ];
+        $params["paySign"] = Sign::MD5($this->app->config->getKey(), $params);
+
+        //返回
+        return $params;
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+/**
+ * 微信MWEB支付：在手机上用微信外的浏览器打开并支付
+ */
 require '../vendor/autoload.php';
 
 //引入

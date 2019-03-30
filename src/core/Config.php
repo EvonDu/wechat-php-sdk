@@ -15,7 +15,13 @@ class Config{
      * @var string|null $sslKeyPath
      * @var string|null $sign_type
      */
-    protected $app_id,$app_secret,$merchant_id,$key,$sslCertPath,$sslKeyPath,$sign_type;
+    protected $app_id;
+    protected $app_secret;
+    protected $merchant_id;
+    protected $key;
+    protected $sslCertPath;
+    protected $sslKeyPath;
+    protected $sign_type= "MD5";
 
     /**
      * Config constructor.
@@ -26,7 +32,7 @@ class Config{
         $this->app_secret   = isset($config["app_secret"]) ? $config["app_secret"] : null;
         $this->merchant_id  = isset($config["merchant_id"]) ? $config["merchant_id"] : null;
         $this->key          = isset($config["key"]) ? $config["key"] : null;
-        $this->sign_type    = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
+        //$this->sign_type    = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
         $this->sslCertPath   = isset($config["sslCertPath"]) ? $config["sslCertPath"] : null;
         $this->sslKeyPath   = isset($config["sslKeyPath"]) ? $config["sslKeyPath"] : null;
     }
@@ -121,7 +127,7 @@ class Config{
      * @return mixed|null
      */
     public function getSignType(){
-        return $this->sslKeyPath;
+        return $this->sign_type;
     }
 
     /**
