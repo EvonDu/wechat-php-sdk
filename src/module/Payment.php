@@ -45,8 +45,8 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
-        $data["spbill_create_ip"] = $this->getClientIp();
         $data["notify_url"] = $notify_url;
+        $data["spbill_create_ip"] = $this->getClientIp();
         $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
         $xml = Xml::arrayToXml($data);
 
@@ -84,6 +84,23 @@ class Payment extends BaseModule {
 
         //调用统一下单
         $params["trade_type"] = "MWEB";
+        return $this->unifiedOrder($params, $notify_url);
+    }
+
+    /**
+     * JSAPI支付
+     * @param array $params
+     * @param string $notify_url
+     * @return mixed
+     */
+    public function payJsapi(Array $params=[], $notify_url){
+        //参数判断
+        Parameter::checkRequire($params ,[
+            'openid',
+        ]);
+
+        //调用统一下单
+        $params["trade_type"] = "JSAPI";
         return $this->unifiedOrder($params, $notify_url);
     }
 
@@ -157,8 +174,8 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/secapi/pay/refund";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
         $data["notify_url"] = $notify_url;
+        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
         $data = array_filter($data);
         $xml = Xml::arrayToXml($data);
 
@@ -187,6 +204,39 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/pay/refundquery";
         $data = array_merge($this->app->config->getPaymentConfig(), $params);
+        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $xml = Xml::arrayToXml($data);
+
+        //调用接口
+        $http = new Http();
+        $result = $http->post($api,$xml);
+        $result = Xml::xmlToArray($result);
+
+        //返回
+        return $result;
+    }
+
+    /**
+     * 微信免密支付(代扣)
+     * @param array $params
+     * @param $notify_url
+     * @return mixed
+     */
+    public function pappayapply(Array $params=[], $notify_url){
+        //参数判断
+        Parameter::checkRequire($params ,[
+            'body',
+            'out_trade_no',
+            'total_fee',
+            'contract_id',
+        ]);
+
+        //准备参数
+        $api = "https://api.mch.weixin.qq.com/pay/pappayapply";
+        $data = array_merge($this->app->config->getPaymentConfig(),$params);
+        $data["trade_type"] = "PAP";
+        $data["notify_url"] = $notify_url;
+        $data["spbill_create_ip"] = $this->getClientIp();
         $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
         $xml = Xml::arrayToXml($data);
 

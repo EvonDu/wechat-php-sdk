@@ -10,15 +10,13 @@ $config = include "config/qiyi.php";
 $client = new WeChatClient($config);
 
 //调用接口
-$out_trade_no = time();
-$result = $client->payment->payNative([
+$result = $client->payment->pappayapply([
     "body"          => "test",
-    "out_trade_no"  => $out_trade_no,
+    "out_trade_no"  => time(),
     "total_fee"     => 1,
+    "contract_id"   => "201902255993378072"
 ],Url::to("notify.php"));
 
 //DEBUG
 var_dump($result);
 ?>
-<h3>订单号：<?=$out_trade_no?></h3>
-<img src="http://qr.liantu.com/api.php?text=<?=$result["code_url"]?>"/>
