@@ -31,7 +31,7 @@ class Http{
         $data = curl_exec($this->curl);
 
         //判断返回
-        if($data !== false){
+        if($this->getHttpCode() === 200){
             return $data;
         }
         else{

@@ -13,4 +13,4 @@ $data = Xml::xmlToArray($xml);
 file_put_contents(__DIR__."/logs/notify.log",json_encode($data)."\n",FILE_APPEND);
 
 //应答notify
-WeChatNotify::reply();
+WeChatNotify::reply(true);
