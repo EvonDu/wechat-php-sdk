@@ -10,7 +10,7 @@ $config = include "config/qiyi.php";
 $client = new WeChatClient($config);
 
 //调用接口
-$result = $client->payment->pappayapply([
+$result = $client->pappay->apply([
     "body"          => "test",
     "out_trade_no"  => time(),
     "total_fee"     => 1,
