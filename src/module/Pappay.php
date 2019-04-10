@@ -27,7 +27,7 @@ class Pappay extends BaseModule {
     }
 
     /**
-     * 微信免密支付(代扣)
+     * 申请扣款(免密支付)
      * @param array $params
      * @param $notify_url
      * @return mixed
@@ -57,5 +57,62 @@ class Pappay extends BaseModule {
 
         //返回
         return $result;
+    }
+
+    /**
+     * 查询签约关系
+     * @param array $params
+     * @return mixed
+     */
+    public function queryContract(Array $params=[]){
+        //参数判断
+        Parameter::checkRequire($params ,[
+            'contract_id',
+        ]);
+
+        //准备参数
+        $api = "https://api.mch.weixin.qq.com/papay/querycontract";
+        $data = array_merge($this->app->config->getPaymentConfig(),$params);
+        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $xml = Xml::arrayToXml($data);
+
+        //调用接口
+        $http = new Http();
+        $result = $http->post($api,$xml);
+        $result = Xml::xmlToArray($result);
+
+        //返回
+        return $result;
+    }
+
+    /**
+     * 获取签约地址
+     * @param $plan_id
+     * @param $contract_code
+     * @param $request_serial
+     * @param $contract_display_account
+     * @param $notify_url
+     * @return string
+     */
+    public function getEntrustUrl($plan_id, $contract_code, $request_serial, $contract_display_account, $notify_url){
+        //拼接地址
+        $api = "https://api.mch.weixin.qq.com/papay/entrustweb";
+        $params = [
+            "appid" => $this->app->config->getAppId(),
+            "mch_id" => $this->app->config->getMerchantId(),
+            "plan_id" => $plan_id,                                      //模板ID
+            "contract_code" => $contract_code,                          //签约协议号
+            "request_serial" => $request_serial,                        //商户请求签约时的序列号，要求唯一性。
+            "contract_display_account" => $contract_display_account,    //签约用户的名称，用于页面展示
+            "notify_url" => $notify_url,                                //签约成功回调地址
+            "version" => "1.0",
+            "timestamp" => time(),
+            'return_web' => 1,
+        ];
+        $params["sign"] = Sign::MD5($this->app->config->getKey(), $params);
+
+        //返回
+        $url = "$api?".http_build_query($params);
+        return $url;
     }
 }

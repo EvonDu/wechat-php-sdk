@@ -58,14 +58,21 @@ $result = $client->payment->payMweb([
 ], "notify_url");
 ```
 
-### 微信免密支付代扣费
+### 申请微信免密支付扣费
 ```
-$result = $client->payment->pappayapply([
+$result = $client->pappay->apply([
     "body"          => "test",
     "out_trade_no"  => time(),
     "total_fee"     => 1,
     "contract_id"   => "***********"
 ], "notify_url");
+```
+
+### 查询微信免密支付签约关系
+```
+$result = $client->pappay->queryContract([
+    "contract_id"   => "***********"
+]);
 ```
 
 ### 查询订单
