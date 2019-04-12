@@ -7,6 +7,11 @@ use evondu\wechat\lib\Xml;
 use evondu\wechat\lib\Http;
 use evondu\wechat\lib\Parameter;
 
+/**
+ * Class Pappay
+ * @package evondu\wechat\module
+ * 文档地址：https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_1&index=1
+ */
 class Pappay extends BaseModule {
     /**
      * 获取客户端IP
@@ -72,6 +77,32 @@ class Pappay extends BaseModule {
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/papay/querycontract";
+        $data = array_merge($this->app->config->getPaymentConfig(),$params);
+        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $xml = Xml::arrayToXml($data);
+
+        //调用接口
+        $http = new Http();
+        $result = $http->post($api,$xml);
+        $result = Xml::xmlToArray($result);
+
+        //返回
+        return $result;
+    }
+
+    /**
+     * 申请签约解约
+     * @param array $params
+     * @return mixed
+     */
+    public function deleteContract(Array $params=[]){
+        //参数判断
+        Parameter::checkRequire($params ,[
+            'contract_id',
+        ]);
+
+        //准备参数
+        $api = "https://api.mch.weixin.qq.com/papay/deletecontract";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
         $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
         $xml = Xml::arrayToXml($data);
