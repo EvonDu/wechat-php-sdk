@@ -13,15 +13,13 @@ use evondu\wechat\lib\Parameter;
  */
 class Payscore extends BaseModule {
     /**
-     * 申请扣款(免密支付)
+     * 创建智慧零售订单
      * @param array $params
-     * @param $notify_url
      * @return mixed
      */
-    public function apply(Array $params=[], $notify_url){
+    public function create(Array $params=[]){
         //参数判断
         Parameter::checkRequire($params ,[
-            'body',
             'out_order_no',
             'service_id',
             'service_start_time',
