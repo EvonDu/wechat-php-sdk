@@ -47,7 +47,7 @@ class Payment extends BaseModule {
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
         $data["notify_url"] = $notify_url;
         $data["spbill_create_ip"] = $this->getClientIp();
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -114,7 +114,7 @@ class Payment extends BaseModule {
             "nonceStr"  => uniqid(),
             "signType"  => $this->app->config->getSignType(),
         ];
-        $params["paySign"] = Sign::MD5($this->app->config->getKey(), $params);
+        $params["paySign"] = Sign::MD5($params, $this->app->config->getKey());
 
         //返回
         return $params;
@@ -134,7 +134,7 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/pay/orderquery";
         $data = array_merge($this->app->config->getPaymentConfig(), $params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -160,7 +160,7 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/pay/closeorder";
         $data = array_merge($this->app->config->getPaymentConfig(), $params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -191,7 +191,7 @@ class Payment extends BaseModule {
         $api = "https://api.mch.weixin.qq.com/secapi/pay/refund";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
         $data["notify_url"] = $notify_url;
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $data = array_filter($data);
         $xml = Xml::arrayToXml($data);
 
@@ -220,7 +220,7 @@ class Payment extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/pay/refundquery";
         $data = array_merge($this->app->config->getPaymentConfig(), $params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -253,7 +253,7 @@ class Payment extends BaseModule {
         $data["trade_type"] = "PAP";
         $data["notify_url"] = $notify_url;
         $data["spbill_create_ip"] = $this->getClientIp();
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口

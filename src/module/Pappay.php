@@ -52,7 +52,7 @@ class Pappay extends BaseModule {
         $data["trade_type"] = "PAP";
         $data["notify_url"] = $notify_url;
         $data["spbill_create_ip"] = $this->getClientIp();
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -78,7 +78,7 @@ class Pappay extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/papay/querycontract";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -104,7 +104,7 @@ class Pappay extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/papay/deletecontract";
         $data = array_merge($this->app->config->getPaymentConfig(),$params);
-        $data["sign"] = Sign::MD5($this->app->config->getKey(), $data);
+        $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
         $xml = Xml::arrayToXml($data);
 
         //调用接口
@@ -140,7 +140,7 @@ class Pappay extends BaseModule {
             "timestamp" => time(),
             'return_web' => 1,
         ];
-        $params["sign"] = Sign::MD5($this->app->config->getKey(), $params);
+        $params["sign"] = Sign::MD5($params, $this->app->config->getKey());
 
         //返回
         $url = "$api?".http_build_query($params);

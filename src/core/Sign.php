@@ -8,7 +8,7 @@ class Sign{
      * @param array $params
      * @return null|string
      */
-    public static function getSignTemplate($key, array $params = []){
+    public static function getSignTemplate(array $params, $key){
         //参数拼凑
         $template = null;
         ksort($params);
@@ -29,9 +29,9 @@ class Sign{
      * @param array $params
      * @return string
      */
-    public static function MD5($key, array $params = []){
+    public static function MD5(array $params, $key){
         //获取签名串
-        $template = self::getSignTemplate($key, $params);
+        $template = self::getSignTemplate($params, $key);
         //进行签名加密
         $sign = MD5($template);
         $sign = strtoupper($sign);
@@ -47,7 +47,7 @@ class Sign{
      * @param $timestamp
      * @return string
      */
-    public static function getSignContent(Array $params, $method, $url, $nonce_str ,$timestamp){
+    public static function getSignContent(array $params, $method, $url, $nonce_str ,$timestamp){
         $content = "$method\n$url\n$timestamp\n$nonce_str\n".json_encode($params)."\n";
         return $content;
     }
@@ -61,7 +61,7 @@ class Sign{
      * @param $url
      * @return string
      */
-    public static function getAuthorization($method, $url ,Array $params, $mchid, $serial_no, $sslKeyPath){
+    public static function getAuthorization($method, $url ,array $params, $mchid, $serial_no, $sslKeyPath){
         $timestamp = time();
         $nonce_str = uniqid();
         $signcontent = self::getSignContent($params, $method, $url, $nonce_str, $timestamp);
