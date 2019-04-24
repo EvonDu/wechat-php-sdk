@@ -14,6 +14,7 @@ class Config{
      * @var string|null $sslCertPath
      * @var string|null $sslKeyPath
      * @var string|null $sign_type
+     * @var string|null $serial_no          APIv3 - 证书序列号
      */
     protected $app_id;
     protected $app_secret;
@@ -21,7 +22,8 @@ class Config{
     protected $key;
     protected $sslCertPath;
     protected $sslKeyPath;
-    protected $sign_type= "MD5";
+    protected $sign_type = "MD5";
+    protected $serial_no;
 
     /**
      * Config constructor.
@@ -35,6 +37,7 @@ class Config{
         //$this->sign_type    = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
         $this->sslCertPath   = isset($config["sslCertPath"]) ? $config["sslCertPath"] : null;
         $this->sslKeyPath   = isset($config["sslKeyPath"]) ? $config["sslKeyPath"] : null;
+        $this->serial_no   = isset($config["serial_no"]) ? $config["serial_no"] : null;
     }
 
     /**
@@ -135,6 +138,20 @@ class Config{
      */
     public function setSignType($value){
         $this->sign_type = $value;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getSerialNo(){
+        return $this->serial_no;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setSerialNo($value){
+        $this->serial_no = $value;
     }
 
     /**
