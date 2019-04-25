@@ -47,8 +47,11 @@ class Sign{
      * @param $timestamp
      * @return string
      */
-    public static function getSignContent(array $params, $method, $url, $nonce_str ,$timestamp){
-        $content = "$method\n$url\n$timestamp\n$nonce_str\n".json_encode($params)."\n";
+    public static function getSignContent($method, $url, $nonce_str, $timestamp, array $params=[]){
+        if($params)
+            $content = "$method\n$url\n$timestamp\n$nonce_str\n".json_encode($params)."\n";
+        else
+            $content = "$method\n$url\n$timestamp\n$nonce_str\n\n";
         return $content;
     }
 
@@ -61,10 +64,10 @@ class Sign{
      * @param $url
      * @return string
      */
-    public static function getAuthorization($method, $url ,array $params, $mchid, $serial_no, $sslKeyPath){
+    public static function getAuthorization($method, $url, $mchid, $serial_no, $sslKeyPath ,array $params=[]){
         $timestamp = time();
         $nonce_str = uniqid();
-        $signcontent = self::getSignContent($params, $method, $url, $nonce_str, $timestamp);
+        $signcontent = self::getSignContent($method, $url, $nonce_str, $timestamp, $params);
         $signature = self::SHA256_WITH_RSA($signcontent, $sslKeyPath);
         $sources = [
             "mchid"         => $mchid,
