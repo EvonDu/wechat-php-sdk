@@ -32,7 +32,6 @@ var_dump($queryString);
 //获取JSSDK
 $current_url = Url::current();
 $signature = $client->jssdk->getSignature($current_url);
-die;
 ?>
 <!DOCTYPE html>
 <html lang="en">

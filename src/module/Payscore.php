@@ -102,19 +102,21 @@ class Payscore extends BaseModule {
 
     /**
      * 查询智慧零售订单
+     * @param $out_order_no
      * @param array $params
      * @return mixed
      */
-    public function query(Array $params=[]){
+    public function query($out_order_no, Array $params=[]){
         //参数判断
         Parameter::checkRequire($params ,[
-            ['out_order_no','query_id'],
+            //['out_order_no','query_id'],
             'service_id',
         ]);
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/smartretail-orders";
         $params["appid"] = $this->app->config->getAppId();
+        $params["out_order_no"] = $out_order_no;
 
         //获取签名认证信息
         $authorization = Sign::getAuthorization(
@@ -222,6 +224,43 @@ class Payscore extends BaseModule {
 
         //返回
         return $result;
+    }
+
+    /**
+     * 结算智慧零售订单(query和complete的复合)
+     * @param $out_order_no
+     * @param array $params
+     * @return mixed
+     * @throws \Exception
+     */
+    public function fulfillment($out_order_no, Array $params=[]){
+        //调用订单查询获取finish_ticket
+        $query = $this->query($out_order_no, $params);
+        if(empty($query->state))
+            throw new \Exception("订单查询失败");
+
+        //判断订单是否已经结束
+        if($query->state == "USER_PAID"){
+            return (object)[
+                "appid"            => $query->appid,
+                "mchid"             => $query->mchid,
+                "order_id"          => null,
+                "out_order_no"      => $out_order_no,
+                "service_id"        => $query->service_id,
+            ];
+        }
+
+        //判断状态合法
+        if($query->state != "USER_ACCEPTED"){
+            throw new \Exception("订单状态错误");
+        }
+
+        //调用订单结束完成接口
+        $params['finish_ticket'] = isset($query->finish_ticket) ? $query->finish_ticket : null;
+        $complete = $this->complete($out_order_no, $params);
+
+        //返回结果
+        return $complete;
     }
 
     /**
