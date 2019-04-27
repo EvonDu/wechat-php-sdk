@@ -40,6 +40,19 @@ class Sign{
     }
 
     /**
+     * HMAC_SHA256签名
+     * @param array $params
+     * @param $key
+     * @return string
+     */
+    public static function HMAC_SHA256(array $params, $key){
+        $template = self::getSignTemplate($params, $key);
+        $sign = hash_hmac("sha256",$template, $key);
+        $sign = strtoupper($sign);
+        return $sign;
+    }
+
+    /**
      * APIv3 - 获取签名内容串
      * @param array $params
      * @param $method

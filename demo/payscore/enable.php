@@ -13,32 +13,17 @@ $client = new WeChatClient($config);
 date_default_timezone_set('PRC');
 
 //调用接口
-$result = $client->payscore->create([
-    "out_order_no" => uniqid(),
-    "service_id"  => "00004000000000523335451575645446",
-    "service_start_time" => date("YmdHis"),
-    "service_end_time" => date("YmdHis",strtotime("+1 day")),
-    "service_start_location" => "利保机器人重力柜",
-    "service_end_location" => "利保机器人重力柜",
-    "service_introduction"=> "自助购物",
-    "risk_amount" => 1,
-]);
-var_dump($result);
-
-//获取小程序串
-$queryString = $client->payscore->getQueryString_Order($result->package);
-var_dump($queryString);
+$queryString = $client->payscore->getQueryString_Enable("00004000000000523335451575645446");
 
 //获取JSSDK
 $current_url = Url::current();
 $signature = $client->jssdk->getSignature($current_url);
-die;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>创建订单</title>
+    <title>开通支付分服务</title>
     <!-- 加载JSSDK -->
     <script src="http://res.wx.qq.com/open/js/jweixin-1.5.0.js"></script>
     <!-- 配置微信JSSDK -->
@@ -52,7 +37,7 @@ die;
             jsApiList: ['openBusinessView']
         });
         wx.ready(function(){
-            wx.invoke('openBusinessView', { businessType: 'wxpayScoreUse', queryString:'<?=$queryString?>'}, function (res) {
+            wx.invoke('openBusinessView', { businessType: 'wxpayScoreEnable', queryString:'<?=$queryString?>'}, function (res) {
                 // 从微信侧小程序返回时会执行这个回调函数
                 parseInt(res.err_code) === 0 ? alert("成功") : alert("失败啦");
             })
@@ -60,5 +45,6 @@ die;
     </script>
 </head>
 <body>
+<h1>开通支付分服务（请在微信浏览器打开）</h1>
 </body>
 </html>
