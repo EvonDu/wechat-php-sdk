@@ -84,7 +84,6 @@ class Jssdk extends BaseModule {
         $noncestr = uniqid();
         $timestamp = time();
         $ticket = $this->getJsapiTicket();
-        var_dump($ticket);
 
         //生成签名
         $params = "jsapi_ticket=$ticket->ticket&noncestr=$noncestr&timestamp=$timestamp&url=$url";

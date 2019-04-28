@@ -195,6 +195,7 @@ class Payscore extends BaseModule {
             'finish_type',                          //1.取消订单；2.结束订单
             'total_amount',                         //扣费金额，单位为分
             'finish_ticket',                        //订单结束凭着(query获取)
+            'real_service_end_time',                //服务结束时间
             ['cancel_reason','fees']                //服务取消原因 和 扣费项
         ]);
 

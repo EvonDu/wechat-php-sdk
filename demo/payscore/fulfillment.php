@@ -12,10 +12,11 @@ $client = new WeChatClient($config);
 date_default_timezone_set('PRC');
 
 //调用接口
-$result = $client->payscore->fulfillment("5cc3c590848c8",[
+$result = $client->payscore->fulfillment("5cc571a9ec957",[
     "service_id"  => "00004000000000523335451575645446",
     "finish_type" => 2,
     "total_amount" => 1,
+    "real_service_end_time" => date("YmdHis"),
     'fees' => [
         [
             'fee_name' => '测试商品',
