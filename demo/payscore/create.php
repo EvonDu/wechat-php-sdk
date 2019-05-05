@@ -53,7 +53,10 @@ $signature = $client->jssdk->getSignature($current_url);
         wx.ready(function(){
             wx.invoke('openBusinessView', { businessType: 'wxpayScoreUse', queryString:'<?=$queryString?>'}, function (res) {
                 // 从微信侧小程序返回时会执行这个回调函数
-                parseInt(res.err_code) === 0 ? alert("成功") : alert("失败啦");
+                if(parseInt(res.err_code) === 0)
+                    alert("确认订单");
+                else
+                    alert("取消订单");
             })
         });
     </script>
