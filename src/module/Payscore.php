@@ -3,7 +3,6 @@ namespace evondu\wechat\module;
 
 use evondu\wechat\core\Sign;
 use evondu\wechat\core\BaseModule;
-use evondu\wechat\lib\Xml;
 use evondu\wechat\lib\Http;
 use evondu\wechat\lib\Parameter;
 
@@ -193,10 +192,10 @@ class Payscore extends BaseModule {
         Parameter::checkRequire($params ,[
             'service_id',
             'finish_type',                          //1.取消订单；2.结束订单
-            'total_amount',                         //扣费金额，单位为分
             'finish_ticket',                        //订单结束凭着(query获取)
-            'real_service_end_time',                //服务结束时间
             ['cancel_reason','fees']                //服务取消原因 和 扣费项
+            //'total_amount',                       //扣费金额，单位为分
+            //'real_service_end_time',              //服务结束时间
         ]);
 
         //准备参数
@@ -234,7 +233,7 @@ class Payscore extends BaseModule {
      * @return mixed
      * @throws \Exception
      */
-    public function fulfillment($out_order_no, Array $params=[]){
+    public function completeOrder($out_order_no, Array $params=[]){
         //调用订单查询获取finish_ticket
         $query = $this->query($out_order_no, $params);
         if(empty($query->state))
@@ -259,6 +258,11 @@ class Payscore extends BaseModule {
         //调用订单结束完成接口
         $params['finish_ticket'] = isset($query->finish_ticket) ? $query->finish_ticket : null;
         $complete = $this->complete($out_order_no, $params);
+
+        //判断结果
+        if(isset($complete->code) && isset($complete->message)){
+            throw new \Exception($complete->message);
+        }
 
         //返回结果
         return $complete;
