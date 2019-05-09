@@ -24,6 +24,7 @@ class Config{
     protected $sslKeyPath;
     protected $sign_type = "MD5";
     protected $serial_no;
+    protected $key_api_v3;
 
     /**
      * Config constructor.
@@ -35,9 +36,10 @@ class Config{
         $this->merchant_id  = isset($config["merchant_id"]) ? $config["merchant_id"] : null;
         $this->key          = isset($config["key"]) ? $config["key"] : null;
         //$this->sign_type    = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
-        $this->sslCertPath   = isset($config["sslCertPath"]) ? $config["sslCertPath"] : null;
+        $this->sslCertPath  = isset($config["sslCertPath"]) ? $config["sslCertPath"] : null;
         $this->sslKeyPath   = isset($config["sslKeyPath"]) ? $config["sslKeyPath"] : null;
-        $this->serial_no   = isset($config["serial_no"]) ? $config["serial_no"] : null;
+        $this->serial_no    = isset($config["serial_no"]) ? $config["serial_no"] : null;
+        $this->key_api_v3   = isset($config["key_api_v3"]) ? $config["key_api_v3"] : null;
     }
 
     /**
@@ -152,6 +154,20 @@ class Config{
      */
     public function setSerialNo($value){
         $this->serial_no = $value;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getKeyApiV3(){
+        return $this->key_api_v3;
+    }
+
+    /**
+     * @param $value
+     */
+    public function setKeyApiV3($value){
+        $this->key_api_v3 = $value;
     }
 
     /**

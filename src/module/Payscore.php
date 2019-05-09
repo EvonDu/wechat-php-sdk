@@ -362,4 +362,39 @@ class Payscore extends BaseModule {
         //返回
         return $queryString;
     }
+
+    /**
+     * 获取Notify报文结果(AEAD_AES_256_GCM解密)
+     * @throws \Exception
+     */
+    public function getNotify(){
+        //获取POST BODY数据
+        $body = file_get_contents("php://input");
+        $data = json_decode($body);
+
+        //检测环境
+        $check_sodium_mod = extension_loaded('sodium');
+        if($check_sodium_mod === false){
+            throw new \Exception('没有安装sodium模块');
+        }
+        $check_aes256gcm = sodium_crypto_aead_aes256gcm_is_available();
+        if($check_aes256gcm === false){
+            throw new \Exception('当前环境不支持aes256gcm');
+        }
+
+        //获取参数
+        if(empty($data->resource->ciphertext) || empty($data->resource->ciphertext) || empty($data->resource->ciphertext))
+            throw new \Exception("Notify回调数据有误");
+        $ciphertext         = $data->resource->ciphertext;
+        $nonce              = $data->resource->nonce;
+        $associated_data    = $data->resource->associated_data;
+        $key                = $this->app->config->getKeyApiV3();
+
+        //报文解密
+        $decode = sodium_crypto_aead_aes256gcm_decrypt(base64_decode($ciphertext),$associated_data,$nonce,$key);
+        $result = json_decode($decode);
+
+        //返回结果
+        return $result;
+    }
 }
