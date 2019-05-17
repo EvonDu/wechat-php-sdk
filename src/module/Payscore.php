@@ -57,8 +57,10 @@ class Payscore extends BaseModule {
 
     /**
      * 创建智慧零售订单
+     * 当要使用免确定订单时,需设置openid和need_user_confirm
      * @param array $params
      * @return mixed
+     * @throws \Exception
      */
     public function create(Array $params=[]){
         //参数判断
@@ -94,6 +96,10 @@ class Payscore extends BaseModule {
         ]);
         $result = $http->post($api,json_encode($params));
         $result = json_decode($result);
+
+        //判断错误
+        if(isset($result->code))
+            throw new \Exception("$result->code:$result->message");
 
         //返回
         return $result;
