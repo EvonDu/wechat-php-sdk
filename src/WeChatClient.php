@@ -7,6 +7,7 @@ use evondu\wechat\module\Jssdk;
 use evondu\wechat\module\Payment;
 use evondu\wechat\module\Pappay;
 use evondu\wechat\module\Payscore;
+use evondu\wechat\module\Face;
 
 /**
  * @property \evondu\wechat\core\Config $config
@@ -15,6 +16,7 @@ use evondu\wechat\module\Payscore;
  * @property \evondu\wechat\module\Payment $payment
  * @property \evondu\wechat\module\Pappay $pappay
  * @property \evondu\wechat\module\Payscore $payscore
+ * @property \evondu\wechat\module\Face $face
  */
 class WeChatClient{
     /**
@@ -23,12 +25,14 @@ class WeChatClient{
      * @var Payment $payment
      * @var Pappay $pappay
      * @var Payscore $payscore
+     * @var Face $face
      */
     public $config;
     public $auth;
     public $jssdk;
     public $payment;
     public $pappay;
+    public $face;
 
     /**
      * 构造函数
@@ -45,5 +49,6 @@ class WeChatClient{
         $this->payment = new Payment($this);
         $this->pappay = new Pappay($this);
         $this->payscore = new Payscore($this);
+        $this->face = new Face($this);
     }
 }
