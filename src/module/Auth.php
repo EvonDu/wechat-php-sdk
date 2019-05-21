@@ -27,13 +27,22 @@ class Auth extends BaseModule {
      * @return string
      */
     public function oauth($scope = self::SNSAPI_BASE, $state = ""){
-        if(!isset($_GET["code"]))
+        //获取access_token
+        if(!isset($_GET["code"])) {
+            //没有code则进行授权
             return $this->toAuth(Url::current(), $scope, $state);
-        else{
-            $response = $this->requestAccessToken($_GET["code"]);
-            $this->openid = $response->openid;
-            $this->access_token = $response->access_token;
+        } else{
+            //尝试使用code获取token,失败则重新授权
+            try{
+                $response = $this->requestAccessToken($_GET["code"]);
+            }
+            catch (\Exception $e){
+                return $this->toAuth(Url::current(), $scope, $state);
+            }
         }
+        //授权后赋值
+        $this->openid = $response->openid;
+        $this->access_token = $response->access_token;
     }
 
     /**
@@ -75,8 +84,6 @@ class Auth extends BaseModule {
 
     /**
      * 获取用户信息
-     * @param $access_token
-     * @param $openid
      * @return mixed
      * @throws \Exception
      */
