@@ -15,7 +15,7 @@ class Face extends BaseModule {
     private function getCommonParameters(){
         return [
             "appid"         => $this->app->config->getAppId(),
-            "mch_id"        => "",
+            "mch_id"        => $this->app->config->getMerchantId(),
             "now"           => time(),
             "version"       => 1,
             "sign_type"     => "MD5",
@@ -36,14 +36,7 @@ class Face extends BaseModule {
 
         //准备参数
         $api = "https://payapp.weixin.qq.com/face/get_wxpayface_authinfo";
-        $data = array_merge($params, [
-            'appid'     => $this->app->config->getAppId(),
-            'mch_id'    => $this->app->config->getMerchantId(),
-            'now'       => time(),
-            'version'   => 1,
-            'sign_type' => 'MD5',
-            'nonce_str' => uniqid(),
-        ]);
+        $data = array_merge($params, $this->getCommonParameters());
         $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
 
         //调用接口
