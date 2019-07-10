@@ -5,6 +5,7 @@ use evondu\wechat\core\BaseModule;
 use evondu\wechat\core\Sign;
 use evondu\wechat\lib\Http;
 use evondu\wechat\lib\Parameter;
+use evondu\wechat\lib\Tools;
 use evondu\wechat\lib\Xml;
 
 class Face extends BaseModule {
@@ -40,6 +41,48 @@ class Face extends BaseModule {
         $data["sign"] = Sign::MD5($data, $this->app->config->getKey());
 
         //调用接口
+        $http = new Http();
+        $result = $http->post($api,Xml::arrayToXml($data));
+        $result = Xml::xmlToArray($result);
+
+        //返回
+        return $result;
+    }
+
+    /**
+     * 支付押金（人脸支付）
+     * @param array $params
+     * @return mixed
+     */
+    public function facepay(Array $params=[]){
+        //参数判断
+        Parameter::checkRequire($params ,[
+            'body',
+            'out_trade_no',
+            'total_fee',
+            'face_code',
+        ]);
+
+        //设置公共参数/默认参数
+        $timestamp = time();
+        $nonce_str = uniqid();
+        $common = [
+            "appid"             => $this->app->config->getAppId(),
+            "mch_id"            => $this->app->config->getMerchantId(),
+            "nonce_str"         => $nonce_str,
+            "timestamp"         => $timestamp,
+            "sign_type"         => "HMAC-SHA256",
+            "deposit"           => "N",
+            "fee_type"          => "CNY",
+            "spbill_create_ip"  => Tools::getClientIp()
+        ];
+
+        //合并参数并进行签名
+        $data = array_merge($params, $common);
+        $data["sign"] = Sign::HMAC_SHA256($data, $this->app->config->getKey());
+
+        //调用接口
+        $api = "https://api.mch.weixin.qq.com/deposit/facepay";
         $http = new Http();
         $result = $http->post($api,Xml::arrayToXml($data));
         $result = Xml::xmlToArray($result);
