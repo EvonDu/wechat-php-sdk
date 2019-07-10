@@ -56,7 +56,8 @@ class Jssdk extends BaseModule {
      */
     public function getJsapiTicket(){
         //读取缓存
-        $filepath = __DIR__."/../cache/jsapi_ticket.cache";
+        $app_id = $this->app->config->getAppId();
+        $filepath = __DIR__."/../cache/jsapi_ticket_$app_id.cache";
         $cache = file_exists($filepath)?file_get_contents($filepath):"{}";
         $cache = json_decode($cache);
 
