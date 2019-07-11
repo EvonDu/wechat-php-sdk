@@ -33,12 +33,7 @@ class Auth extends BaseModule {
             return $this->toAuth(Url::current(), $scope, $state);
         } else{
             //尝试使用code获取token,失败则重新授权
-            try{
-                $response = $this->requestAccessToken($_GET["code"]);
-            }
-            catch (\Exception $e){
-                return $this->toAuth(Url::current(), $scope, $state);
-            }
+            $response = $this->requestAccessToken($_GET["code"]);
         }
         //授权后赋值
         $this->openid = $response->openid;
@@ -68,7 +63,7 @@ class Auth extends BaseModule {
 
         //判断返回
         if(empty($result->access_token))
-            throw new \Exception("认证失败:".$json);
+            throw new \Exception($json);
 
         //返回
         return $result;

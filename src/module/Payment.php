@@ -104,7 +104,7 @@ class Payment extends BaseModule {
         $params["trade_type"] = "JSAPI";
         $response = $this->unifiedOrder($params, $notify_url);
         if(empty($response["prepay_id"]) || empty($response["return_code"]) || $response["return_code"] != "SUCCESS")
-            throw new \Exception("统一下单失败:".json_encode($response));
+            throw new \Exception(json_encode($response));
 
         //设置
         $params = [
