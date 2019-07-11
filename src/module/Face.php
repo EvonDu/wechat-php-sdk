@@ -15,8 +15,8 @@ class Face extends BaseModule {
      */
     private function getCommonParameters(){
         return [
-            "appid"         => $this->app->config->getAppId(),
-            "mch_id"        => $this->app->config->getMerchantId(),
+            "appid"         => $this->app->config->getAppid(),
+            "mch_id"        => $this->app->config->getMchId(),
             "now"           => time(),
             "version"       => 1,
             "sign_type"     => "MD5",
@@ -67,8 +67,8 @@ class Face extends BaseModule {
         $timestamp = time();
         $nonce_str = uniqid();
         $common = [
-            "appid"             => $this->app->config->getAppId(),
-            "mch_id"            => $this->app->config->getMerchantId(),
+            "appid"             => $this->app->config->getAppid(),
+            "mch_id"            => $this->app->config->getMchId(),
             "nonce_str"         => $nonce_str,
             "timestamp"         => $timestamp,
             "sign_type"         => "HMAC-SHA256",

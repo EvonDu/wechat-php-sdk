@@ -16,9 +16,9 @@ class Config{
      * @var string|null $sign_type
      * @var string|null $serial_no          APIv3 - 证书序列号
      */
-    protected $app_id;
-    protected $app_secret;
-    protected $merchant_id;
+    protected $appid;
+    protected $secret;
+    protected $mch_id;
     protected $key;
     protected $sslCertPath;
     protected $sslKeyPath;
@@ -31,11 +31,11 @@ class Config{
      * @param $config
      */
     public function __construct(array $config){
-        $this->app_id       = isset($config["app_id"]) ? $config["app_id"] : null;
-        $this->app_secret   = isset($config["app_secret"]) ? $config["app_secret"] : null;
-        $this->merchant_id  = isset($config["merchant_id"]) ? $config["merchant_id"] : null;
+        $this->appid       = isset($config["appid"]) ? $config["appid"] : null;
+        $this->secret       = isset($config["secret"]) ? $config["secret"] : null;
+        $this->mch_id       = isset($config["mch_id"]) ? $config["mch_id"] : null;
         $this->key          = isset($config["key"]) ? $config["key"] : null;
-        //$this->sign_type    = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
+        //$this->sign_type  = isset($config["sign_type"]) ? $config["sign_type"] : "MD5";
         $this->sslCertPath  = isset($config["sslCertPath"]) ? $config["sslCertPath"] : null;
         $this->sslKeyPath   = isset($config["sslKeyPath"]) ? $config["sslKeyPath"] : null;
         $this->serial_no    = isset($config["serial_no"]) ? $config["serial_no"] : null;
@@ -45,45 +45,45 @@ class Config{
     /**
      * @return mixed|null
      */
-    public function getAppId(){
-        return $this->app_id;
+    public function getAppid(){
+        return $this->appid;
     }
 
     /**
      * @param $value
      * @return mixed
      */
-    public function setAppId($value){
-        return $this->app_id = $value;
+    public function setAppid($value){
+        return $this->appid = $value;
     }
 
     /**
      * @return mixed|null
      */
-    public function getAppSecret(){
-        return $this->app_secret;
+    public function getSecret(){
+        return $this->secret;
     }
 
     /**
      * @param $value
      * @return mixed
      */
-    public function setAppSecret($value){
-        return $this->app_secret = $value;
+    public function setSecret($value){
+        return $this->secret = $value;
     }
 
     /**
      * @return mixed|null
      */
-    public function getMerchantId(){
-        return $this->merchant_id;
+    public function getMchId(){
+        return $this->mch_id;
     }
 
     /**
      * @param $value
      */
-    public function setMerchantId($value){
-        $this->merchant_id = $value;
+    public function setMchId($value){
+        $this->mch_id = $value;
     }
 
     /**
@@ -176,8 +176,8 @@ class Config{
      */
     public function getPaymentConfig(){
         return [
-            "appid" => $this->app_id,
-            "mch_id" => $this->merchant_id,
+            "appid" => $this->appid,
+            "mch_id" => $this->mch_id,
             "nonce_str" => time(),
             "sign_type" => $this->sign_type,
         ];

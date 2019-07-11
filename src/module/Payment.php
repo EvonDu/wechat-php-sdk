@@ -108,7 +108,7 @@ class Payment extends BaseModule {
 
         //设置
         $params = [
-            "appId"     => $this->app->config->getAppId(),
+            "appId"     => $this->app->config->getAppid(),
             "package"   => "prepay_id=" . $response['prepay_id'],
             "timeStamp" => time(),
             "nonceStr"  => uniqid(),

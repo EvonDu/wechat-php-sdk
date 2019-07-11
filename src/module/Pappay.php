@@ -129,8 +129,8 @@ class Pappay extends BaseModule {
         //拼接地址
         $api = "https://api.mch.weixin.qq.com/papay/entrustweb";
         $params = [
-            "appid" => $this->app->config->getAppId(),
-            "mch_id" => $this->app->config->getMerchantId(),
+            "appid" => $this->app->config->getAppid(),
+            "mch_id" => $this->app->config->getMchId(),
             "plan_id" => $plan_id,                                      //模板ID
             "contract_code" => $contract_code,                          //签约协议号
             "request_serial" => $request_serial,                        //商户请求签约时的序列号，要求唯一性。

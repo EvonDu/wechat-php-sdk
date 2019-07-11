@@ -27,7 +27,7 @@ class Payscore extends BaseModule {
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/user-service-state";
         $params = [
-            "appid"         => $this->app->config->getAppId(),
+            "appid"         => $this->app->config->getAppid(),
             "service_id"    => $params["service_id"],
             "openid"        => $params["openid"],
         ];
@@ -36,7 +36,7 @@ class Payscore extends BaseModule {
         $authorization = Sign::getAuthorization(
             "GET",
             "/payscore/user-service-state?".http_build_query($params),
-            $this->app->config->getMerchantId(),
+            $this->app->config->getMchId(),
             $this->app->config->getSerialNo(),
             $this->app->config->getSslKeyPath()
         );
@@ -75,13 +75,13 @@ class Payscore extends BaseModule {
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/smartretail-orders";
-        $params["appid"] = $this->app->config->getAppId();
+        $params["appid"] = $this->app->config->getAppid();
 
         //获取签名认证信息
         $authorization = Sign::getAuthorization(
             "POST",
             "/payscore/smartretail-orders",
-            $this->app->config->getMerchantId(),
+            $this->app->config->getMchId(),
             $this->app->config->getSerialNo(),
             $this->app->config->getSslKeyPath(),
             $params
@@ -120,14 +120,14 @@ class Payscore extends BaseModule {
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/smartretail-orders";
-        $params["appid"] = $this->app->config->getAppId();
+        $params["appid"] = $this->app->config->getAppid();
         $params["out_order_no"] = $out_order_no;
 
         //获取签名认证信息
         $authorization = Sign::getAuthorization(
             "GET",
             "/payscore/smartretail-orders?".http_build_query($params),
-            $this->app->config->getMerchantId(),
+            $this->app->config->getMchId(),
             $this->app->config->getSerialNo(),
             $this->app->config->getSslKeyPath()
         );
@@ -161,13 +161,13 @@ class Payscore extends BaseModule {
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/smartretail-orders/$out_order_no/cancel";
-        $params["appid"] = $this->app->config->getAppId();
+        $params["appid"] = $this->app->config->getAppid();
 
         //获取签名认证信息
         $authorization = Sign::getAuthorization(
             "POST",
             "/payscore/smartretail-orders/$out_order_no/cancel",
-            $this->app->config->getMerchantId(),
+            $this->app->config->getMchId(),
             $this->app->config->getSerialNo(),
             $this->app->config->getSslKeyPath(),
             $params
@@ -206,13 +206,13 @@ class Payscore extends BaseModule {
 
         //准备参数
         $api = "https://api.mch.weixin.qq.com/payscore/smartretail-orders/$out_order_no/complete";
-        $params["appid"] = $this->app->config->getAppId();
+        $params["appid"] = $this->app->config->getAppid();
 
         //获取签名认证信息
         $authorization = Sign::getAuthorization(
             "POST",
             "/payscore/smartretail-orders/$out_order_no/complete",
-            $this->app->config->getMerchantId(),
+            $this->app->config->getMchId(),
             $this->app->config->getSerialNo(),
             $this->app->config->getSslKeyPath(),
             $params
@@ -284,7 +284,7 @@ class Payscore extends BaseModule {
         $timestamp = time();
         $nonce_str = uniqid();
         $params = [
-            "mch_id"        => $this->app->config->getMerchantId(),
+            "mch_id"        => $this->app->config->getMchId(),
             "service_id"    => $service_id,
             "timestamp"     => $timestamp,
             "nonce_str"     => $nonce_str,
@@ -295,7 +295,7 @@ class Payscore extends BaseModule {
         $sign = Sign::HMAC_SHA256($params,$this->app->config->getKey());
 
         //拼凑串
-        $queryString = "appid=".urlencode($this->app->config->getAppId());
+        $queryString = "appid=".urlencode($this->app->config->getAppid());
         foreach ($params as $key => $value){
             $queryString .= "&$key=".urlencode($value);
         }
@@ -315,7 +315,7 @@ class Payscore extends BaseModule {
         $timestamp = time();
         $nonce_str = uniqid();
         $params = [
-            "mch_id"        => $this->app->config->getMerchantId(),
+            "mch_id"        => $this->app->config->getMchId(),
             "package"       => $package,
             "timestamp"     => $timestamp,
             "nonce_str"     => $nonce_str,
@@ -326,7 +326,7 @@ class Payscore extends BaseModule {
         $sign = Sign::HMAC_SHA256($params,$this->app->config->getKey());
 
         //拼凑串
-        $queryString = "appid=".urlencode($this->app->config->getAppId());
+        $queryString = "appid=".urlencode($this->app->config->getAppid());
         foreach ($params as $key => $value){
             $queryString .= "&$key=".urlencode($value);
         }
@@ -347,7 +347,7 @@ class Payscore extends BaseModule {
         $timestamp = time();
         $nonce_str = uniqid();
         $params = [
-            "mch_id"        => $this->app->config->getMerchantId(),
+            "mch_id"        => $this->app->config->getMchId(),
             "service_id"    => $service_id,
             "out_order_no"     => $out_order_no,
             "timestamp"     => $timestamp,
@@ -359,7 +359,7 @@ class Payscore extends BaseModule {
         $sign = Sign::HMAC_SHA256($params,$this->app->config->getKey());
 
         //拼凑串
-        $queryString = "appid=".urlencode($this->app->config->getAppId());
+        $queryString = "appid=".urlencode($this->app->config->getAppid());
         foreach ($params as $key => $value){
             $queryString .= "&$key=".urlencode($value);
         }

@@ -5,7 +5,7 @@ require '../vendor/autoload.php';
 use evondu\wechat\WeChatClient;
 
 //创建客户端
-$config = include "config/qiyi.php";
+$config = include "config/demo.php";
 $client = new WeChatClient($config);
 
 //调用接口

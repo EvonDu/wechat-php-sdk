@@ -6,7 +6,7 @@ use evondu\wechat\WeChatClient;
 use evondu\wechat\lib\Url;
 
 //创建客户端
-$config = include "config/test.php";
+$config = include "config/demo.php";
 $client = new WeChatClient($config);
 
 //认证获取

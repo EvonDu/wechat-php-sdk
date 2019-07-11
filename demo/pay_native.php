@@ -6,7 +6,8 @@ use evondu\wechat\WeChatClient;
 use evondu\wechat\lib\Url;
 
 //创建客户端
-$config = include "config/qiyi.php";
+$config = include "config/demo.php";
+var_dump($config);
 $client = new WeChatClient($config);
 
 //调用接口

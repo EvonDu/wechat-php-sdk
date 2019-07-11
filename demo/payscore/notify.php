@@ -6,6 +6,6 @@ use evondu\wechat\lib\Url;
 use evondu\wechat\WeChatClient;
 
 //创建客户端
-$config = include "../config/qiyi.php";
+$config = include "../config/demo.php";
 $client = new WeChatClient($config);
 $data = $client->payscore->getNotify();

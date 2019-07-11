@@ -54,8 +54,8 @@ class Auth extends BaseModule {
     public function requestAccessToken($code){
         //设置参数
         $params = [
-            "appid"         => $this->app->config->getAppId(),
-            "secret"        => $this->app->config->getAppSecret(),
+            "appid"         => $this->app->config->getAppid(),
+            "secret"        => $this->app->config->getSecret(),
             "code"          => $code,
             "grant_type"    => "authorization_code"
         ];
@@ -111,7 +111,7 @@ class Auth extends BaseModule {
      * @return string
      */
     public function getAuthUrl($redirectUrl, $scope = self::SNSAPI_BASE, $state = ""){
-        $params["appid"] = $this->app->config->getAppId();
+        $params["appid"] = $this->app->config->getAppid();
         $params["redirect_uri"] = $redirectUrl;
         $params["response_type"] = "code";
         $params["scope"] = $scope;

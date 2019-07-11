@@ -13,8 +13,8 @@ class Jssdk extends BaseModule {
      */
     public function requestAccessTokenClient(){
         //拼凑地址
-        $app_id = $this->app->config->GetAppId();
-        $app_secret = $this->app->config->GetAppSecret();
+        $app_id = $this->app->config->getAppid();
+        $app_secret = $this->app->config->getSecret();
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$app_id&secret=$app_secret";
 
         //调用接口
@@ -56,7 +56,7 @@ class Jssdk extends BaseModule {
      */
     public function getJsapiTicket(){
         //读取缓存
-        $app_id = $this->app->config->getAppId();
+        $app_id = $this->app->config->getAppid();
         $filepath = __DIR__."/../cache/jsapi_ticket_$app_id.cache";
         $cache = file_exists($filepath)?file_get_contents($filepath):"{}";
         $cache = json_decode($cache);
@@ -92,7 +92,7 @@ class Jssdk extends BaseModule {
 
         //返回
         return [
-            "appId"     => $this->app->config->GetAppId(),
+            "appId"     => $this->app->config->getAppid(),
             "nonceStr"  => $noncestr,
             "timestamp" => $timestamp,
             "signature" => $signature,
