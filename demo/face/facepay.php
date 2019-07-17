@@ -5,15 +5,15 @@ use evondu\wechat\WeChatClient;
 
 date_default_timezone_set('PRC');
 
-$config = include("../config/qiyi.php");
+$config = include("../config/demo.php");
 $client = new WeChatClient($config);
 $authinfo = $client->face->facepay([
-    "body"          => "可口可乐",
-    "sub_mch_id"    => "1900000100",
-    "out_trade_no"  => uniqid(),
+    "body"          => "adsdasdas",
+    "sub_mch_id"    => "1507714431",
+    "out_trade_no"  => "TEST72501201407033233367018",
     "total_fee"     => 1,
-    "openid"        => "o7mZD0ThJr3mLB15Y_tEDRe3Qfvo",
-    "face_code"     => "b713b5d2-666c-48",
+    "openid"        => "o7mZD0VYSdbfK69L78NS0qO0kOgw",
+    "face_code"     => "0ff4b5cb-b531-443e-8a45-f07320de4e9d",
 ]);
 
 var_dump($authinfo);

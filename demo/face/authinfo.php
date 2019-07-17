@@ -5,7 +5,7 @@ use evondu\wechat\WeChatClient;
 
 date_default_timezone_set('PRC');
 
-$config = include("../config/qiyi.php");
+$config = include("../config/demo.php");
 $client = new WeChatClient($config);
 $authinfo = $client->face->getAuthinfo([
     "store_id"      => "S000001",
