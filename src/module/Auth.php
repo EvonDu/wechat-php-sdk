@@ -41,6 +41,16 @@ class Auth extends BaseModule {
     }
 
     /**
+     * 进行认证(使用Code)
+     * @param $code
+     */
+    public function oauthByCode($code){
+        $response = $this->requestAccessToken($code);
+        $this->openid = $response->openid;
+        $this->access_token = $response->access_token;
+    }
+
+    /**
      * 获取AccessToken
      * @param $code
      * @return mixed
