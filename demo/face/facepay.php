@@ -8,8 +8,7 @@ date_default_timezone_set('PRC');
 $config = include("../config/demo.php");
 $client = new WeChatClient($config);
 $authinfo = $client->face->facepay([
-    "body"          => "adsdasdas",
-    "sub_mch_id"    => "1507714431",
+    "body"          => "测试商品",
     "out_trade_no"  => "TEST72501201407033233367018",
     "total_fee"     => 1,
     "openid"        => "o7mZD0VYSdbfK69L78NS0qO0kOgw",

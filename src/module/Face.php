@@ -64,15 +64,12 @@ class Face extends BaseModule {
         ]);
 
         //设置公共参数/默认参数
-        $timestamp = time();
         $nonce_str = uniqid();
         $common = [
             "appid"             => $this->app->config->getAppid(),
             "mch_id"            => $this->app->config->getMchId(),
             "nonce_str"         => $nonce_str,
-            "timestamp"         => $timestamp,
             "sign_type"         => "HMAC-SHA256",
-            "deposit"           => "N",
             "fee_type"          => "CNY",
             "spbill_create_ip"  => Tools::getClientIp()
         ];
@@ -82,7 +79,7 @@ class Face extends BaseModule {
         $data["sign"] = Sign::HMAC_SHA256($data, $this->app->config->getKey());
 
         //调用接口
-        $api = "https://api.mch.weixin.qq.com/deposit/facepay";
+        $api = "https://api.mch.weixin.qq.com/pay/facepay";
         $http = new Http();
         $result = $http->post($api,Xml::arrayToXml($data));
         $result = Xml::xmlToArray($result);
