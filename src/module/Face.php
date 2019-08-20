@@ -27,7 +27,8 @@ class Face extends BaseModule {
     /**
      * 获取SDK调用凭证
      * @param array $params
-     * @return string
+     * @return mixed
+     * @throws \Exception
      */
     public function getAuthinfo(Array $params=[]){
         //参数判断
@@ -45,6 +46,10 @@ class Face extends BaseModule {
         $result = $http->post($api,Xml::arrayToXml($data));
         $result = Xml::xmlToArray($result);
 
+        //判断返回
+        if(!isset($result["return_code"]) || $result["return_code"] !== "SUCCESS")
+            throw new \Exception((isset($result["return_msg"]) ? $result["return_msg"] : "获取人脸识别调用凭证失败" ) . ":" . json_encode($result));
+
         //返回
         return $result;
     }
@@ -53,6 +58,7 @@ class Face extends BaseModule {
      * 支付押金（人脸支付）
      * @param array $params
      * @return mixed
+     * @throws \Exception
      */
     public function facepay(Array $params=[]){
         //参数判断
@@ -83,6 +89,10 @@ class Face extends BaseModule {
         $http = new Http();
         $result = $http->post($api,Xml::arrayToXml($data));
         $result = Xml::xmlToArray($result);
+
+        //判断返回
+        if(!isset($result["return_code"]) || isset($result["err_code"]))
+            throw new \Exception((isset($result["err_code_des"]) ? $result["err_code_des"] : "扫脸支付失败" ) . ":" . json_encode($result));
 
         //返回
         return $result;
