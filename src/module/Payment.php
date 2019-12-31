@@ -175,6 +175,7 @@ class Payment extends BaseModule {
     /**
      * 申请退款
      * @param array $params
+     * @param null $notify_url
      * @return mixed
      */
     public function refund(Array $params=[], $notify_url=null){

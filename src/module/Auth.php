@@ -24,6 +24,7 @@ class Auth extends BaseModule {
     /**
      * 进行认证
      * @param string $scope
+     * @param string $state
      * @return string
      */
     public function oauth($scope = self::SNSAPI_BASE, $state = ""){
@@ -113,6 +114,7 @@ class Auth extends BaseModule {
      * 获取认证地址
      * @param $redirectUrl
      * @param string $scope
+     * @param string $state
      * @return string
      */
     public function getAuthUrl($redirectUrl, $scope = self::SNSAPI_BASE, $state = ""){
@@ -128,7 +130,8 @@ class Auth extends BaseModule {
     /**
      * 前往授权获取code
      * @param $redirect_uri
-     * @return string
+     * @param string $scope
+     * @param string $state
      */
     protected function toAuth($redirect_uri, $scope = self::SNSAPI_BASE, $state = ""){
         $url = $this->getAuthUrl($redirect_uri, $scope, $state);
