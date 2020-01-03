@@ -10,22 +10,22 @@ use evondu\wechat\module\Payscore;
 use evondu\wechat\module\Face;
 
 /**
- * @property \evondu\wechat\core\Config $config
- * @property \evondu\wechat\module\Auth $auth
- * @property \evondu\wechat\module\Jssdk $jssdk
- * @property \evondu\wechat\module\Payment $payment
- * @property \evondu\wechat\module\Pappay $pappay
+ * @property \evondu\wechat\core\Config     $config
+ * @property \evondu\wechat\module\Auth     $auth
+ * @property \evondu\wechat\module\Jssdk    $jssdk
+ * @property \evondu\wechat\module\Payment  $payment
+ * @property \evondu\wechat\module\Pappay   $pappay
  * @property \evondu\wechat\module\Payscore $payscore
- * @property \evondu\wechat\module\Face $face
+ * @property \evondu\wechat\module\Face     $face
  */
 class WeChatClient{
     /**
-     * @var Config $config
-     * @var Auth $auth
-     * @var Payment $payment
-     * @var Pappay $pappay
-     * @var Payscore $payscore
-     * @var Face $face
+     * @var $config     Config
+     * @var $auth       Auth
+     * @var $payment    Payment
+     * @var $pappay     Pappay
+     * @var $payscore   Payscore
+     * @var $face       Face
      */
     public $config;
     public $auth;
@@ -36,7 +36,7 @@ class WeChatClient{
 
     /**
      * 构造函数
-     * AlipayClient constructor.
+     * WechatClient constructor.
      * @param $params
      */
     public function __construct($params){
